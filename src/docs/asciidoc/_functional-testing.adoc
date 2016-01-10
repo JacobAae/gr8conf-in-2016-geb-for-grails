@@ -1,37 +1,33 @@
+=== Functional testing
 
-In case you need to interact using javascript
+* Ignores the specifics of the underlying software component under test.
+** Whitebox testing
+* Merely asserts that providing certain input results in certain output.
+* *Web-application:* Programmatically controlling a web browser to simulate the actions of a user on a web page.
 
-=== Executing Javascript
+=== Why?
 
-Clicking a button that is hidden will create a `ElementNotVisibleException`
-
-[source,html,indent=0]
-----
-<fieldset class="well" style="display: none">
-    <g:link class="btn" action="index">List</g:link>
-</fieldset>
-----
-
-=== Executing Javascript
+image::testing.png[]
 
 
-[source,groovy,indent=0]
-----
-JavascriptExecutor executor = (JavascriptExecutor) driver
-executor.executeScript('jQuery(".well").show();')
-----
+=== Browser Automation
 
-=== Wrapping Javascript
+Let your testers focus on UX and UI not functionality
 
-[source,groovy,indent=0]
-----
-def js( String script ){
-    (driver as JavascriptExecutor).executeScript( script )
-}
-----
 
-[source,groovy,indent=0]
-----
-js('jQuery(".well").show();')
-----
 
+
+=== Pain
+
+WARNING: Traditionally been tedious, cumbersome and brittle to do
+
+TIP: Geb helps ease the pain
+
+
+=== Gain
+
+Any browser based application can be tested
+
+[NOTE.speaker]
+Multiple browsers +
+Programming language agnostic

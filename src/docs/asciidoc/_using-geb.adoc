@@ -1,7 +1,7 @@
 
 === Geb Selectors (1)
 
-Jquery like syntax
+Jquery like selecter syntax
 
 [source,groovy,indent=0]
 ----
@@ -11,14 +11,14 @@ $("p")
 // match the first 'p' element on the page
 $("p", 0)
 
-// All 'p' elements with a title value 'section'
+// All 'div' elements with a title value 'section'
 $("div", title: "section")
 
-// match the first 'p' element title attribute 'section'
-$("p", 0, title: "section")
+// match the first 'div' element text 'section'
+$("div", 0, text: "section")
 
-// match the first 'p' element with the class 'main'
-$("p.main", 0)
+// match the first 'div' element with the class 'main'
+$("div.main", 0)
 ----
 
 

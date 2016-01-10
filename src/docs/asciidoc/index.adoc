@@ -2,6 +2,16 @@
 Jacob Aae Mikkelsen
 
 
+== Survey and Rules
+
+[NOTE.speaker]
+Interrupt if questions +
+If I speak Danish-English etc +
+Who uses Geb? +
+Who Knows Spock?
+
+
+
 == Agenda
 
 * Functional testing
@@ -12,8 +22,7 @@ Jacob Aae Mikkelsen
 * Javascript
 
 
-[NOTE.speaker]
-Tra
+
 
 === Jacob Aae Mikkelsen
 
@@ -26,16 +35,12 @@ Tra
 * Blogs http://grydeske.net/news[The Grails Diary]
 
 
-=== Functional testing
+== Functional testing
 
-* Ignores the specifics of the underlying software component under test.
-** Whitebox testing
-* Merely asserts that providing certain input results in certain output.
-* *Web-application:* Programmatically controlling a web browser to simulate the actions of a user on a web page.
+include::_functional-testing.adoc[]
 
-WARNING: Traditionally been tedious, cumbersome and brittle to do
 
-TIP: Geb helps ease the pain
+
 
 == Geb
 
@@ -54,7 +59,7 @@ How Geb works
 
 include::_using-geb.adoc[]
 
-== Standalon Geb Script
+== Standalone Geb Script
 
 include::_standalone.adoc[]
 

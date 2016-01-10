@@ -146,6 +146,8 @@ We can correct this using _pages_ and _modules_
 * Url
 * How to check if we are at the correct place
 * Content we wish to interact with
+** .. and how it is found
+* Helper methods
 
 === Page Objects
 
@@ -168,6 +170,13 @@ class AttendeeShowPage extends Page {
     }
 }
 ----
+
+[NOTE.speaker]
+url +
+at must return true +
+content +
+geb keeps track on current page
+
 
 
 
@@ -350,4 +359,25 @@ void "Update Attendee"() {
 }
 ----
 
+=== Standalone Revisited
 
+
+[source,groovy,indent=0]
+----
+browser.with {
+    to DuckDuckGoPage
+
+	inputField << "GR8Conf India"
+	submit()
+
+	waitFor(10, 0.5) {
+		at DuckDuckGoResultPage
+	}
+
+	clickLink(0)
+
+	waitFor {
+		at GR8ConfIndiaPage
+	}
+}
+----
