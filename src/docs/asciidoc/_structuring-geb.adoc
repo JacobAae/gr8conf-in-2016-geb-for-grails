@@ -1,0 +1,353 @@
+
+Lets test a CRUD part of a grails application registrering conference attendees
+
+
+*Lets test the following*
+
+. Goto list of attendees page
+. Create new employee (incl. invalid data once)
+. Update the employee
+. Check data is updated
+
+
+=== Geb Spec Basics
+
+[source,groovy,indent=0]
+----
+import geb.spock.GebSpec
+
+@Stepwise // Ensures the tests are run sequentially
+class AttendeeFunctionalSpec extends GebSpec {
+
+    // Spock specs here
+}
+----
+
+
+
+=== Geb Spec (1)
+
+The naive inmaintainable way!
+
+[source,groovy,indent=0]
+----
+    void "Go to list page - check initial state"() {
+        when:"The home page is visited"
+        go '/attendee/index'
+
+        then:
+        title == "Attendee List"
+    }
+----
+
+=== Geb Spec (2)
+
+The naive inmaintainable way!
+
+[source,groovy,indent=0]
+----
+void "Click new attendee button"() {
+    when:
+    $("a.create").click()
+
+    then:
+    title == "Create Attendee"
+}
+----
+
+=== Geb Spec (3)
+
+The naive inmaintainable way!
+
+[source,groovy,indent=0]
+----
+void "Submit form with errors"() {
+    when:
+    $("button.btn-primary").click()
+
+    then:
+    title == "Create Attendee"
+}
+----
+
+=== Geb Spec (4)
+
+The naive inmaintainable way!
+
+[source,groovy,indent=0]
+----
+void "Submit form with no errors"() {
+    when:
+    $('form').name = 'Bobby'
+    $('form').email = 'bobby@mail.dk'
+
+    and:
+    $("button.btn-primary").click()
+
+    then:
+    title == 'Show Attendee'
+    $('span.property-value').find{ it.text() == 'Bobby'}
+    $('span.property-value').find{ it.text() == 'bobby@mail.dk'}
+}
+----
+
+=== Geb Spec (5)
+
+The naive inmaintainable way!
+
+[source,groovy,indent=0]
+----
+void "Click Edit Button"() {
+    when:
+    $("a.btn-primary").click()
+
+    then:
+    title == 'Edit Attendee'
+}
+----
+
+=== Geb Spec (6)
+
+The naive inmaintainable way!
+
+[source,groovy,indent=0]
+----
+void "Update Attendee"() {
+    when:
+    $('form').name = 'Alison'
+    $('form').email = 'alison@gr8.dk'
+
+    and:
+    $("button.btn-primary").click()
+
+    then:
+    title == 'Show Attendee'
+    $('span.property-value').find{ it.text() == 'Alison'}
+    $('span.property-value').find{ it.text() == 'alison@gr8.dk'}
+}
+----
+
+
+
+== Geb Spec - The Better Way
+
+If we make a few scenarios, there will be
+
+* Much duplication
+* Many places to correct if we change the layout / DOM
+
+We can correct this using _pages_ and _modules_
+
+
+=== Page Objects
+
+*Describes a web page*
+
+* Url
+* How to check if we are at the correct place
+* Content we wish to interact with
+
+=== Page Objects
+
+[source,groovy,indent=0]
+----
+import eu.gr8conf.grailsdemo.modules.NavigationBarModule
+import geb.Page
+
+class AttendeeShowPage extends Page {
+
+    static url = "/attendee/show"
+
+    static at = { title ==~ /Show Attendee/ }
+
+    static content = {
+        attProp{ $('span.property-label') }
+        name{ attProp.find{ it.text() == 'Name'}.next().text() }
+        email{ attPro.find{ it.text() == 'Email'}.next().text() }
+        editButton{ $("a.btn-primary") }
+    }
+}
+----
+
+
+
+=== Modules
+
+*Describes repeated content*
+
+* Across pages
+* Within the same page
+
+=== Modules
+
+[source,groovy,indent=0]
+----
+import geb.Module
+
+class NavigationBarModule extends Module {
+
+    static base = { $('nav.navbar') }
+
+    static content = {
+        home(required: false) { $('a.home') }
+        listAttendee(required: false) { $('a.list') }
+        newAttendee(required: false) { $('a.create') }
+    }
+}
+----
+
+=== Modules
+
+[source,groovy,indent=0]
+----
+static content = {
+// Like this, the module does not need a base
+//  form{ module NavigationBarModule, $('nav.navbar') }
+    form { module NavigationBarModule }
+}
+----
+
+
+
+=== Module for repeated content in a page
+
+[source,groovy,indent=0]
+----
+import geb.Module
+
+class AttendeeListItemModule extends Module {
+
+    static content = {
+        data { $("td", it) }
+        name { data(0).text() }
+        email { data(1).text() }
+        nationality { data(2).text() }
+        dateCreated { data(3).text() }
+        lastUpdated { data(4).text() }
+    }
+}
+----
+
+=== Module for repeated content in a page
+
+
+[source,groovy,indent=0]
+.AttendeeListPage.groovy
+----
+static content = {
+  menubar { module NavigationBarModule }
+  attendees { moduleList AttendeeListItemModule,
+                $("table tr").tail() }
+}
+----
+
+=== Module for repeated content in a page
+
+
+[source,groovy,indent=0]
+----
+when:
+to AttendeeListPage
+
+then:
+attendees*.name.contains('Guillaume Laforge')
+----
+
+
+
+=== Geb Spec - structured (1)
+
+Lets try to restructure the ugly spec from before
+
+[source,groovy,indent=0]
+----
+void "Go to list page - check initial state"() {
+    when:
+    to AttendeeIndexPage
+
+    then:
+    at AttendeeIndexPage
+}
+----
+
+=== Geb Spec - structured (2)
+
+[source,groovy,indent=0]
+----
+void "Click new attendee button"() {
+    when:
+    menubar.newAttendee.click()
+
+    then:
+    at AttendeeCreatePage
+}
+----
+
+=== Geb Spec - structured (3)
+
+[source,groovy,indent=0]
+----
+void "Submit form with errors"() {
+    when:
+    submitButton.click()
+
+    then:
+    at AttendeeCreatePage
+}
+----
+
+=== Geb Spec - structured (4)
+
+[source,groovy,indent=0]
+----
+void "Submit form with no errors"() {
+    when:
+    form.name = 'Bob'
+    form.email = 'bob@somemail.com'
+
+    and:
+    submitButton.click()
+
+    then:
+    at AttendeeShowPage
+    name == 'Bob'
+    email == 'bob@somemail.com'
+}
+----
+
+
+=== Geb Spec - structured (5)
+
+[source,groovy,indent=0]
+----
+void "Click Edit Button"() {
+    when:
+    editButton.click()
+
+    then:
+    at AttendeeEditPage
+}
+----
+
+
+=== Geb Spec - structured (6)
+
+[source,groovy,indent=0]
+----
+void "Update Attendee"() {
+    when:
+    form.name = 'Alice'
+    form.email = 'alice@somemail.com'
+
+    and:
+    updateButton.click()
+
+    then:
+    at AttendeeShowPage
+    title == 'Show Attendee'
+    name == 'Alice'
+    email == 'alice@somemail.com'
+}
+----
+
+

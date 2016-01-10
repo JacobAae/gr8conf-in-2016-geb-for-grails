@@ -1,0 +1,37 @@
+=== Test reports
+
+* Nicely formatted
+* Spock power-assert format
+
+
+=== Screenshots
+
+Screenshots and HTML from end of each test:
+
+Extend from `GebReportingSpec`
+
+[source,groovy,indent=0]
+----
+class AttendeeFunctionalSpec extends GebReportingSpec
+----
+
+[source,groovy,indent=0]
+.GebConfig.groovy
+----
+reportsDir = new File("build/geb-reports")
+----
+
+[NOTE.speaker]
+DEMO: Class
+
+
+
+=== Ad-hoc Screenshots
+
+[source,groovy,indent=0]
+----
+report "When-form-is-just-filled"
+----
+
+* Saves a report in reportsDir
+* Numbered in increasing order

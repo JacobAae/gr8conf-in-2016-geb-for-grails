@@ -1,0 +1,133 @@
+
+=== Geb Selectors (1)
+
+Jquery like syntax
+
+[source,groovy,indent=0]
+----
+// match all 'p' elements on page
+$("p")
+
+// match the first 'p' element on the page
+$("p", 0)
+
+// All 'p' elements with a title value 'section'
+$("div", title: "section")
+
+// match the first 'p' element title attribute 'section'
+$("p", 0, title: "section")
+
+// match the first 'p' element with the class 'main'
+$("p.main", 0)
+----
+
+
+
+=== Geb Selectors (2)
+
+Selecting returns `Navigator` objects
+
+[source,groovy,indent=0]
+----
+// The parent of the first div
+$("div", 0).parent()
+
+// All tables with a cellspacing
+// attribute value of 0 that are nested in a paragraph
+$("p").find("table", cellspacing: '0')
+----
+
+
+=== Retriving Information
+
+[source,groovy,indent=0]
+----
+$("p").text() == "a"
+$("p").tag() == "p"
+$("p").@title == "a"
+$("p").classes() == ["a", "para"]
+----
+
+
+=== Interaction with content
+
+* `click()`
+* `isDisplayed()`
+* `withConfirm{}`
+* `withAlert{}`
+
+
+[source,groovy,indent=0]
+----
+$("a.btn").click()
+$("div").isDisplayed()
+
+withConfirm {
+    $("button.delete").click()
+}
+----
+
+
+
+=== Sending input
+
+[source,groovy,indent=0]
+----
+import org.openqa.selenium.Keys
+
+// Shorthand for sendKeys() method of WebDriver.
+$("div") << "abc"
+
+$("input", name: "foo") << Keys.chord(Keys.CONTROL, "c")
+----
+
+
+=== More interaction with forms
+
+Consider the following HTML…
+
+[source,html,indent=0]
+----
+<form>
+    <input type="text" name="geb" value="Functional" />
+</form>
+----
+
+The value can be read and written via property notation…
+
+[source,groovy,indent=0]
+----
+$("form").geb == "Functional"
+$("form").geb = "Testing"
+$("form").geb == "Testing"
+----
+
+
+These are literally shortcuts for…
+
+[source,groovy,indent=0]
+----
+$("form").find("input", name: "geb").value() == "Functional"
+$("form").find("input", name: "geb").value("Testing")
+$("form").find("input", name: "geb").value() == "Testing"
+----
+
+
+=== Variables Available
+
+* `title`
+* `browser`
+* `currentUrl`
+* `currentWindow`
+
+
+=== More possibilities
+
+* Uploading files
+* Interaction closures
+** Simulate drag-n-drop
+** Control-clicking
+* Interacting with javascript
+** js object
+
+

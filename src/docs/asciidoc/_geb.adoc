@@ -1,0 +1,31 @@
+=== Credits
+
+* Luke Daley
+* Marcin Erdmann
+
+=== Geb history
+
+* Started in November 2009
+* Created by Luke Daley
+* Current project lead Marcin Erdman
+
+=== Why Geb
+
+* jQuery like selector syntax
+* Power of WebDriver (Easier api)
+* Robustness of Page Object modeling
+* Expressiveness of the Groovy language
+* Integrates well with build systems (Gradle/Maven)
+* Excellent user manual/documentation
+
+=== Geb Implementation
+
+* Build on top of the WebDriver browser automation library
+** successor to the Selenium Remote Control (RC) testing framework.
+** Selenium RC -> JavaScript to interact
+** WebDriver -> native browser drivers
+* Use JUnit or Spock
+
+
+
+

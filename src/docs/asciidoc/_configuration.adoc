@@ -1,0 +1,164 @@
+
+=== GebConfig
+
+Configuration for Geb is placed in `GebConfig.groovy`
+
+In Grails 3, place it in ´src/integration-test/groovy`
+
+TIP: http://www.gebish.org/manual/current/configuration.html
+
+[NOTE.speaker]
+No package!
+
+
+=== Driver
+
+It is possible to configure the browser used.
+
+
+[source,groovy,indent=0]
+.build.gradle
+----
+compile 'org.seleniumhq.selenium:selenium-chrome-driver:2.45.0'
+compile 'org.seleniumhq.selenium:selenium-firefox-driver:2.45.0'
+----
+
+
+=== Firefox
+
+[source,groovy,indent=0]
+.GebConfig.groovy
+----
+import org.openqa.selenium.firefox.FirefoxProfile
+import org.openqa.selenium.firefox.FirefoxDriver
+
+driver = {
+    FirefoxProfile profile = new FirefoxProfile()
+    profile.setPreference("browser.download.folderList", 2)
+    profile.setPreference("browser.download.dir", "/tmp")
+    profile.setPreference(
+         "browser.helperApps.neverAsk.saveToDisk", "text/csv")
+
+    def driverInstance = new FirefoxDriver(profile)
+    driverInstance.manage().window().maximize()
+    driverInstance
+}
+----
+
+[NOTE.speaker]
+Download - dont ask +
+Maximize window
+
+=== Chrome
+
+* Needs ChromeDriver downloaded
+* Pretty fast and stable
+
+
+=== Chrome (1)
+
+[source,groovy,indent=0]
+.GebConfig.groovy
+----
+private String driverLocationDependingOnOperatingSystem() {
+    String os = System.getProperty("os.name").toLowerCase();
+    def loc = "http://chromedriver.storage.googleapis.com/2.15"
+    if( os.contains('mac')) {
+        return "${loc}/chromedriver_mac32.zip"
+    }
+    if( os.contains('win')) {
+        return "${loc}/chromedriver_win32.zip"
+    }
+    return "${loc}/chromedriver_linux64.zip"
+}
+
+----
+
+
+=== Chrome (2)
+
+[source,groovy,indent=0]
+.GebConfig.groovy
+----
+private void downloadDriver(File file, String path) {
+    if (!file.exists()) {
+        def ant = new AntBuilder()
+        ant.get(src: path, dest: 'driver.zip')
+        ant.unzip(src: 'driver.zip', dest: file.parent)
+        ant.delete(file: 'driver.zip')
+        ant.chmod(file: file, perm: '700')
+    }
+}
+----
+
+
+=== Chrome (3)
+
+[source,groovy,indent=0]
+.GebConfig.groovy
+----
+def chromeDriver = new File('build/drivers/chrome/chromedriver')
+downloadDriver(chromeDriver,
+        driverLocationDependingOnOperatingSystem())
+System.setProperty('webdriver.chrome.driver',
+        chromeDriver.absolutePath)
+
+driver = {
+    def driverInstance = new ChromeDriver()
+
+    def browserWindow = driverInstance.manage().window()
+    // width, height
+    browserWindow.size = new Dimension(1000, 2500)
+    browserWindow.position = new Point(0, 0)
+
+    driverInstance
+}
+----
+
+
+=== Waiting
+
+
+[source,groovy,indent=0]
+.GebConfig.groovy
+----
+waiting {
+    timeout = 10
+    retryInterval = 0.5
+}
+
+baseNavigatorWaiting = true
+atCheckWaiting = true
+
+----
+
+
+=== Using Waiting
+
+[source,html,indent=0]
+----
+<div class="fade-me-in" style="display: none">
+  Hi - are yo waiting for me?
+</div>
+<script>
+  $('div.fade-me-in').delay(3000).slideDown();
+</script>
+----
+
+
+[source,groovy,indent=0]
+----
+static content = {
+    fadeInMessage{ $('div.fade-me-in') }
+}
+----
+
+
+[source,groovy,indent=0]
+----
+then:
+waitFor {
+    fadeInMessage.text() == 'Hi - are yo waiting for me?'
+}
+----
+

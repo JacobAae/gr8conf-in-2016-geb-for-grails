@@ -1,0 +1,183 @@
+
+=== Geb and Grails 2.x
+
+Must install plugin in `BuildConfig.groovy`
+
+[source,groovy,indent=0]
+----
+dependencies {
+  ...
+  test("org.seleniumhq.selenium:selenium-support:2.45.0")
+  test("org.seleniumhq.selenium:selenium-firefox-driver:2.45.0")
+  test "org.gebish:geb-spock:0.10.0"
+}
+plugins {
+  ...
+  test "org.grails.plugins:geb:0.10.0"
+}
+----
+
+[NOTE.speaker]
+Selenium support:  Required fx to set values in select
+
+
+
+=== Geb Tests in Grails 2.x
+
+Tests placed in `test/functional` folder
+
+
+Running the tests
+
+----
+grails test-app functional:
+----
+
+
+
+
+
+
+=== Geb and Grails 3
+
+Geb is default in `build.gradle`
+
+[source,groovy,indent=0]
+----
+dependencies {
+  ...
+  testCompile "org.grails.plugins:geb"
+
+  // Note: It is recommended to update to a more robust driver
+  // (Chrome, Firefox etc.)
+  testRuntime 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.44.0'
+}
+----
+
+
+===  Geb Tests in Grails 3
+
+Creating Geb Spec
+
+----
+grails create-functional-test MyGebScenario
+----
+
+Placing the test in `src/integration-test/groovy`
+
+
+Running the tests
+
+----
+grails test-app -integration
+----
+
+
+=== Generated Class
+
+[source,groovy,indent=0]
+----
+@Integration
+@Rollback
+class ManyAttendeesSpec extends GebSpec {
+
+    void "test something"() {
+        when:"The home page is visited"
+        go '/'
+
+        then:"The title is correct"
+        $('title').text() == "Welcome to Grails"
+    }
+}
+----
+
+
+
+
+
+=== Interacting with Application
+
+When some functionality is needed that is not exposed through the browser,
+it can be necessary to interact with the application under test.
+
+
+=== Grails 2.5
+
+Tests not running in same JVM
+
+Done with remote-control plugin
+
+Send a closure for execution in application
+
+
+[source,groovy,indent=0]
+----
+compile ":remote-control:2.0"
+----
+
+
+=== Remote Control
+
+[source,groovy,indent=0]
+----
+setup: 'Create some item not available through GUI'
+def id = remote {
+    Item item = new Item(name: "MyItem")
+    item.save()
+    item.id
+}
+----
+
+
+
+
+=== Grails 3.0
+
+Application is in same jvm
+
+Interaction is possible directly
+
+Tests run more like integration tests
+
+
+
+=== Interacting with Application
+
+[source,groovy,indent=0]
+----
+void "Test Pagination is shown with 15 attendees"() {
+    setup:
+    Attendee.withNewTransaction {
+       15.times {
+          new Attendee(name: "N$it", email: "m$it@t.dk").save()
+       }
+    }
+
+    when:
+    to AttendeeIndexPage
+
+    then:
+    hasPagination()
+}
+----
+
+[NOTE.speaker]
+Should cleanup appropriately
+
+
+=== Interacting with Application
+
+[source,groovy,indent=0]
+----
+static content = {
+    menubar { module NavigationBarModule }
+    pagination(required: false) { $('span.currentStep') }
+}
+
+boolean hasPagination() {
+    pagination.text()
+}
+----
+
+[NOTE.speaker]
+hasPagination method -> Groovy truth
