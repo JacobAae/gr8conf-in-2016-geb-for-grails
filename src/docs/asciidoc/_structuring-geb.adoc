@@ -139,7 +139,10 @@ If we make a few scenarios, there will be
 We can correct this using _pages_ and _modules_
 
 
+
+
 === Page Objects
+
 
 *Describes a web page*
 
@@ -148,6 +151,11 @@ We can correct this using _pages_ and _modules_
 * Content we wish to interact with
 ** .. and how it is found
 * Helper methods
+
+[NOTE.speaker]
+In a phrase: Domain Modelling +
+trusted principles; encapsulation and reuse.
+
 
 === Page Objects
 
@@ -173,10 +181,25 @@ class AttendeeShowPage extends Page {
 
 [NOTE.speaker]
 url +
-at must return true +
+at must return true  +
+Fail fast +
 content +
 geb keeps track on current page
 
+=== Content Closure
+
+[source,groovy,indent=0]
+----
+static content = {
+    info(required: false) { $("div.info") }
+    message(wait: false) { $("div.message") }
+}
+----
+
+[NOTE.speaker]
+Optional content +
+Fails if not htere OW. +
+Wait for dynamic content
 
 
 
@@ -186,6 +209,11 @@ geb keeps track on current page
 
 * Across pages
 * Within the same page
+
+[NOTE.speaker]
+Reused content fragments +
+Encapsulation and reuse
+
 
 === Modules
 

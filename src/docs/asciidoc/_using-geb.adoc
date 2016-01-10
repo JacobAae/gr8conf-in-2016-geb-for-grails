@@ -1,4 +1,13 @@
 
+=== Navigator
+
+The +$()+ method returns a Navigator object
+
+General format
+
+  $( <css selector>, <index/range>, <attribute/text matchers> )
+
+
 === Geb Selectors (1)
 
 Jquery like selecter syntax
@@ -36,6 +45,41 @@ $("div", 0).parent()
 // attribute value of 0 that are nested in a paragraph
 $("p").find("table", cellspacing: '0')
 ----
+
+[NOTE.speaker]
+.previous() +
+.next() +
+.parent() +
+.siblings() +
+.children() +
+
+
+
+=== Geb Selectors (3)
+
+Text attribute supports regex
+
+[source,groovy,indent=0]
+----
+// Any div with the text starting wih GR8
+$("div", text: ~/GR8.+/)
+$("p", text: startsWith("GR8"))
+
+// And other handy predicates
+$("div", class: contains("ui-"))
+----
+
+=== CSS Support
+
+[source,groovy,indent=0]
+----
+$("table tr:nth-child(2n+1) td")
+----
+
+[NOTE.speaker]
+Full CSS3 if the target browser supports it.+
+CSS lookup is efficient
+
 
 
 === Retriving Information

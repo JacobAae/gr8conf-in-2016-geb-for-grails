@@ -8,7 +8,8 @@ Jacob Aae Mikkelsen
 Interrupt if questions +
 If I speak Danish-English etc +
 Who uses Geb? +
-Who Knows Spock?
+Who Knows Spock? +
+Who know JQuery?
 
 
 
