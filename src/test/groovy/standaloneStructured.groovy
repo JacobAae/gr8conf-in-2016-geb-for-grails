@@ -1,8 +1,8 @@
 @Grapes([
 		@Grab("org.gebish:geb-core:0.12.2"),
-		@GrabExclude('org.codehaus.groovy:groovy-all'),
-		@Grab("org.seleniumhq.selenium:selenium-chrome-driver:2.40.0"),
-		@Grab("org.seleniumhq.selenium:selenium-support:2.40.0")
+//		@GrabExclude('org.codehaus.groovy:groovy-all'),
+		@Grab("org.seleniumhq.selenium:selenium-chrome-driver:2.49.0"),
+		@Grab("org.seleniumhq.selenium:selenium-support:2.49.0")
 ])
 
 import geb.Browser
@@ -13,6 +13,7 @@ System.setProperty("webdriver.chrome.driver", "/home/jacob/repositories/gr8conf/
 
 Browser browser = new Browser(driver: new ChromeDriver())
 
+// tag::standalone3[]
 class DuckDuckGoPage extends geb.Page {
 
 	static url = "http://duckduckgo.com"
@@ -27,6 +28,7 @@ class DuckDuckGoPage extends geb.Page {
 		inputField << Keys.ENTER
 	}
 }
+// end::standalone3[]
 
 class DuckDuckGoResultPage extends geb.Page {
 
@@ -48,6 +50,7 @@ class GR8ConfIndiaPage extends geb.Page {
 }
 
 browser.with {
+// tag::standalone2[]
     to DuckDuckGoPage
 
 	inputField << "GR8Conf India"
@@ -57,11 +60,14 @@ browser.with {
 		at DuckDuckGoResultPage
 	}
 
-	clickLink(0)
+    sleep(3000) // For demo reasons
+
+    clickLink(0)
 
 	waitFor {
 		at GR8ConfIndiaPage
 	}
+// end::standalone2[]
 }
 
 sleep(10000)

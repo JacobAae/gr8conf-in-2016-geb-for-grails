@@ -27,7 +27,7 @@ Who know JQuery?
 
 === Jacob Aae Mikkelsen
 
-* Senior Engineer at Lego
+* Senior Engineer at LEGO
 ** Microservice based architechture on JVM
 * Previously 4 years at Gennemtænkt IT
 ** Consultant on Groovy and Grails
@@ -110,8 +110,10 @@ DEMO-TID
 == Resources
 
 * http://gebish.org[]
+* https://groups.google.com/forum/#!forum/geb-user[]
 * https://github.com/geb[]
 * https://gist.github.com/melix/9619800
+* https://github.com/tomaslin/grails-test-recipes
 * https://fbflex.wordpress.com/2010/08/25/geb-and-grails-tips-tricks-and-gotchas/
 * https://github.com/JacobAae/eu-gr8conf-grailsdemo
 

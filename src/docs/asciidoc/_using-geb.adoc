@@ -5,8 +5,10 @@ The +$()+ method returns a Navigator object
 
 General format
 
-  $( <css selector>, <index/range>, <attribute/text matchers> )
-
+[source,groovy,indent=0]
+----
+$( <css selector>, <index/range>, <attribute/text matchers> )
+----
 
 === Geb Selectors (1)
 
@@ -34,6 +36,22 @@ $("div.main", 0)
 
 === Geb Selectors (2)
 
+Text attribute supports regex
+
+[source,groovy,indent=0]
+----
+// Any div with the text starting wih GR8
+$("div", text: ~/GR8.+/)
+$("p", text: startsWith("GR8"))
+
+// And other handy predicates
+$("div", class: contains("ui-"))
+----
+
+
+=== Geb Selectors (3)
+
+
 Selecting returns `Navigator` objects
 
 [source,groovy,indent=0]
@@ -51,23 +69,10 @@ $("p").find("table", cellspacing: '0')
 .next() +
 .parent() +
 .siblings() +
-.children() +
+.children()
 
 
 
-=== Geb Selectors (3)
-
-Text attribute supports regex
-
-[source,groovy,indent=0]
-----
-// Any div with the text starting wih GR8
-$("div", text: ~/GR8.+/)
-$("p", text: startsWith("GR8"))
-
-// And other handy predicates
-$("div", class: contains("ui-"))
-----
 
 === CSS Support
 
@@ -126,6 +131,55 @@ $("input", name: "foo") << Keys.chord(Keys.CONTROL, "c")
 ----
 
 
+=== Interaction
+
+Using `Actions` API from WebDriver is possible.
+
+But Geb provides the `interact` closure
+
+
+
+=== Control-clicking
+
+[source,groovy,indent=0]
+----
+import org.openqa.selenium.Keys
+
+interact {
+    keyDown Keys.CTRL
+    click $("a.myLink")
+    keyUp Keys.CTRL
+}
+----
+
+
+
+=== Simulate drag-n-drop
+
+
+[source,groovy,indent=0]
+----
+interact {
+    clickAndHold($('#draggable'))
+    moveByOffset(150, 200)
+    release()
+}
+----
+
+Or easier
+
+[source,groovy,indent=0]
+----
+interact {
+    dragAndDropBy($("#draggable"), 150, 200)
+}
+----
+
+
+[NOTE.speaker]
+the element will be clicked then dragged 150 pixels to the right and 200 pixels downward
+
+
 === More interaction with forms
 
 Consider the following HTML…
@@ -165,13 +219,13 @@ $("form").find("input", name: "geb").value() == "Testing"
 * `currentWindow`
 
 
+
+
 === More possibilities
 
 * Uploading files
-* Interaction closures
-** Simulate drag-n-drop
-** Control-clicking
+* Downloading files
 * Interacting with javascript
-** js object
+** js object (Example later)
 
 

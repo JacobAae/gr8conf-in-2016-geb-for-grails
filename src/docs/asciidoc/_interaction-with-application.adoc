@@ -137,7 +137,7 @@ Application is in same jvm
 
 Interaction is possible directly
 
-Tests run more like integration tests
+Tests run as integration tests
 
 
 

@@ -1,8 +1,3 @@
-=== Credits
-
-* Luke Daley
-* Marcin Erdmann
-
 === Geb history
 
 * Started in November 2009

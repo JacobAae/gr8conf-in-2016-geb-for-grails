@@ -1,13 +1,18 @@
 
-Lets test a CRUD part of a grails application registrering conference attendees
+=== Scenario
 
+Lets test a CRUD part of a grails application registrering conference attendees
 
 *Lets test the following*
 
 . Goto list of attendees page
-. Create new employee (incl. invalid data once)
-. Update the employee
+. Create new attendee (incl. invalid data once)
+. Update the attendee
 . Check data is updated
+
+
+[NOTE.speaker]
+LIVE: Show application
 
 
 === Geb Spec Basics
@@ -23,7 +28,8 @@ class AttendeeFunctionalSpec extends GebSpec {
 }
 ----
 
-
+[NOTE.speaker]
+Spock, but JUnit is also available
 
 === Geb Spec (1)
 
@@ -78,16 +84,16 @@ The naive inmaintainable way!
 ----
 void "Submit form with no errors"() {
     when:
-    $('form').name = 'Bobby'
-    $('form').email = 'bobby@mail.dk'
+    $('form').name = 'Deepak'
+    $('form').email = 'deepak@mail.org'
 
     and:
     $("button.btn-primary").click()
 
     then:
     title == 'Show Attendee'
-    $('span.property-value').find{ it.text() == 'Bobby'}
-    $('span.property-value').find{ it.text() == 'bobby@mail.dk'}
+    $('div.property-value').find{ it.text() == 'Deepak'}
+    $('div.property-value').find{ it.text() == 'deepak@mail.org'}
 }
 ----
 
@@ -114,16 +120,16 @@ The naive inmaintainable way!
 ----
 void "Update Attendee"() {
     when:
-    $('form').name = 'Alison'
-    $('form').email = 'alison@gr8.dk'
+    $('form').name = 'Amit'
+    $('form').email = 'amit@mail.org'
 
     and:
     $("button.btn-primary").click()
 
     then:
     title == 'Show Attendee'
-    $('span.property-value').find{ it.text() == 'Alison'}
-    $('span.property-value').find{ it.text() == 'alison@gr8.dk'}
+    $('span.property-value').find{ it.text() == 'Amit'}
+    $('span.property-value').find{ it.text() == 'amit@mail.org'}
 }
 ----
 
@@ -136,9 +142,14 @@ If we make a few scenarios, there will be
 * Much duplication
 * Many places to correct if we change the layout / DOM
 
-We can correct this using _pages_ and _modules_
+
+=== REP-crazy-coding
+// Video here
 
 
+=== Solution
+
+TIP: Use _pages_ and _modules_
 
 
 === Page Objects
@@ -339,16 +350,16 @@ void "Submit form with errors"() {
 ----
 void "Submit form with no errors"() {
     when:
-    form.name = 'Bob'
-    form.email = 'bob@somemail.com'
+    form.name = 'Deepak'
+    form.email = 'deepak@mail.org'
 
     and:
     submitButton.click()
 
     then:
     at AttendeeShowPage
-    name == 'Bob'
-    email == 'bob@somemail.com'
+    name == 'Deepak'
+    email == 'deepak@mail.org'
 }
 ----
 
@@ -373,17 +384,16 @@ void "Click Edit Button"() {
 ----
 void "Update Attendee"() {
     when:
-    form.name = 'Alice'
-    form.email = 'alice@somemail.com'
+    form.name = 'Amit'
+    form.email = 'amit@somemail.com'
 
     and:
     updateButton.click()
 
     then:
     at AttendeeShowPage
-    title == 'Show Attendee'
-    name == 'Alice'
-    email == 'alice@somemail.com'
+    name == 'Amit'
+    email == 'amit@somemail.com'
 }
 ----
 
@@ -392,20 +402,18 @@ void "Update Attendee"() {
 
 [source,groovy,indent=0]
 ----
-browser.with {
-    to DuckDuckGoPage
-
-	inputField << "GR8Conf India"
-	submit()
-
-	waitFor(10, 0.5) {
-		at DuckDuckGoResultPage
-	}
-
-	clickLink(0)
-
-	waitFor {
-		at GR8ConfIndiaPage
-	}
-}
+include::../../test/groovy/standaloneStructured.groovy[tags=standalone2]
 ----
+
+=== Standalone Revisited
+
+
+[source,groovy,indent=0]
+----
+include::../../test/groovy/standaloneStructured.groovy[tags=standalone3]
+----
+
+[NOTE.speaker]
+Also pages for DuckDuckGoResultPage and GR8Conf India
+
+

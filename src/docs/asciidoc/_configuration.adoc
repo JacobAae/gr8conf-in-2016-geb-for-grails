@@ -15,12 +15,33 @@ No package!
 
 It is possible to configure the browser used.
 
+=== Supported Drivers
+
+* Firefox
+* Chrome
+* InternetExplorer
+* Safari
+
+
+* HtmlUnit
+* PhantomJS
+
+[NOTE.speaker]
+Headless browsers run faster +
+Not so reliable
+
+
+=== Driver
+
+It is possible to configure the browser used.
+
+
 
 [source,groovy,indent=0]
 .build.gradle
 ----
-compile 'org.seleniumhq.selenium:selenium-chrome-driver:2.45.0'
-compile 'org.seleniumhq.selenium:selenium-firefox-driver:2.45.0'
+compile 'org.seleniumhq.selenium:selenium-chrome-driver:2.49.0'
+compile 'org.seleniumhq.selenium:selenium-firefox-driver:2.49.0'
 ----
 
 
@@ -62,7 +83,7 @@ Maximize window
 ----
 private String driverLocationDependingOnOperatingSystem() {
     String os = System.getProperty("os.name").toLowerCase();
-    def loc = "http://chromedriver.storage.googleapis.com/2.15"
+    def loc = "http://chromedriver.storage.googleapis.com/2.20"
     if( os.contains('mac')) {
         return "${loc}/chromedriver_mac32.zip"
     }
@@ -162,3 +183,22 @@ waitFor {
 }
 ----
 
+[NOTE.speaker]
+DEMO - Fil: ManyAttendeesSpec
+
+=== Pausing Geb
+
+[source,groovy,indent=0]
+----
+include::../../../in-gr8conf-gebdemo/src/integration-test/groovy/in/gr8conf/gebdemo/PauseFunctionalSpec.groovy[tags=pause-geb]
+----
+
+=== Pausing Geb
+
+[source,groovy,indent=0]
+----
+include::../../../in-gr8conf-gebdemo/src/integration-test/groovy/in/gr8conf/gebdemo/PauseFunctionalSpec.groovy[tags=pause]
+----
+
+[NOTE.speaker]
+LIVE DEMO: PauseFunctionalSpec

@@ -1,15 +1,18 @@
 === Geb Standalone example
 
+Lets try to automate:
+
+* Searching for `GR8Conf India`
+* Click the first link
+* Hopefully end up on the right homepage
+
+=== Geb Standalone example
+
 [source,groovy,indent=0]
 ----
-go "http://duckduckgo.com"
-
-$('input', name: 'q').value("GR8Conf India")
-$('input', name: 'q') << Keys.ENTER
-
-waitFor(10, 0.5) { $("#links").displayed }
-
-$("h2.result__title").first().click()
-
-waitFor { title = "GR8Conf IN-2016" }
+include::../../test/groovy/standalone.groovy[tags=standalone1]
 ----
+
+[NOTE.speaker]
+LIVE DEMO: standalon.groovy +
+Run from
