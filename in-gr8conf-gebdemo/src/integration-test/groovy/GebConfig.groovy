@@ -9,10 +9,13 @@ import org.openqa.selenium.Point
 waiting {
     timeout = 10
     retryInterval = 0.5
+
 }
 
+baseNavigatorWaiting = true
+atCheckWaiting = true
+
 // Chrome
-/*
 def chromeDriver = new File('build/drivers/chrome/chromedriver')
 downloadChromeDriver(chromeDriver, chromeDriverLocationDependingOnOperatingSystem())
 System.setProperty('webdriver.chrome.driver', chromeDriver.absolutePath)
@@ -28,9 +31,9 @@ driver = {
 
     driverInstance
 }
-*/
 
 // Firefox
+/*
 driver = {
     FirefoxProfile profile = new FirefoxProfile()
     profile.setPreference("browser.download.folderList", 2)
@@ -41,7 +44,7 @@ driver = {
     driverInstance.manage().window().maximize()
     driverInstance
 }
-
+*/
 
 private void downloadChromeDriver(File file, String path) {
     if (!file.exists()) {
