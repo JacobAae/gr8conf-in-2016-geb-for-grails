@@ -1,0 +1,18 @@
+/*
+*= require bootstrap
+*= require bootstrap-theme
+*= require_self
+*/
+
+.well {
+    margin-top: 50px;
+}
+
+.fieldcontain label,
+.fieldcontain .property-label {
+    color: #666666;
+    vertical-align: top;
+    text-align: right;
+    width: 25%;
+    padding-right: 10px;
+}
