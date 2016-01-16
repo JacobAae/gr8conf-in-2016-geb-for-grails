@@ -298,7 +298,7 @@ when:
 to AttendeeListPage
 
 then:
-attendees*.name.contains('Guillaume Laforge')
+attendees*.name.contains('Burt Beckwith')
 ----
 
 

@@ -116,6 +116,8 @@ asciidoctor {
         ]
         def html = new File("$buildDir/asciidoc/revealjs/index.html")
         def fixed = html.text
+        fixed = fixed.replaceAll("""<section id="rep-geb"><h2>(.+?)</h2>""", """<section id="rep-geb"><img alt="geb" src="./images/geb.png" style="border:none;"> """)
+
         videos.each { id, video ->
             fixed = fixed.replaceAll("""<section id="$id"><h2>(.+?)</h2>""", """<section id="$id">
 <video controls autoplay loop style="width: 100%;"">

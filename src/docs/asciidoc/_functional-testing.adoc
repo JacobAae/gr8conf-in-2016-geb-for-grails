@@ -24,8 +24,10 @@ Unit testing does not check integrations
 
 === Browser Automation
 
+image::testers-coding.gif[]
 
 
+[NOTE.speaker]
 Let your testers focus on UX and UI not functionality
 
 

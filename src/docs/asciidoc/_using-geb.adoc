@@ -65,13 +65,11 @@ $("p").find("table", cellspacing: '0')
 ----
 
 [NOTE.speaker]
-.previous() +
-.next() +
-.parent() +
-.siblings() +
-.children()
-
-
+previous() +
+next() +
+parent() +
+siblings() +
+children()
 
 
 === CSS Support

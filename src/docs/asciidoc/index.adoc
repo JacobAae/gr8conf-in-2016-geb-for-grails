@@ -43,7 +43,8 @@ include::_functional-testing.adoc[]
 
 
 
-== Geb
+== REP-Geb
+// GEB Logo
 
 include::_geb.adoc[]
 
@@ -115,9 +116,10 @@ DEMO-TID
 * https://gist.github.com/melix/9619800
 * https://github.com/tomaslin/grails-test-recipes
 * https://fbflex.wordpress.com/2010/08/25/geb-and-grails-tips-tricks-and-gotchas/
-* https://github.com/JacobAae/eu-gr8conf-grailsdemo
+* https://github.com/JacobAae/gr8conf-in-2016-geb-for-grails
 
 
 
 == Questions?
 
+// http://www.slideshare.net/JacobAaeMikkelsen/geb-for-testing-your-grails-application-gr8conf-india-2016
